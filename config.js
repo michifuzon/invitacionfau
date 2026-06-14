@@ -3,8 +3,8 @@
 // Reemplazá estos valores con los de tu proyecto
 // ─────────────────────────────────────────────
 const CONFIG = {
-  SUPABASE_URL: 'PONE-TU-URL-ACA',         // ej: https://abcdef.supabase.co
-  SUPABASE_KEY: 'PONE-TU-ANON-KEY-ACA',    // anon/public key de Supabase
+  SUPABASE_URL: 'https://dvwcxkpfnfhnndmxugso.supabase.co',         // ej: https://abcdef.supabase.co
+  SUPABASE_KEY: 'sb_publishable_DdugvPc_NDAxsLBpScaBJQ_F1S1NP2v',    // anon/public key de Supabase
   ADMIN_PASS:   'fau2026',                  // contraseña para /organizacion.html
 
   // Estimaciones por persona
