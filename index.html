@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+    />
+    <title>Cumpleaños Fau</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:ital,wght@0,400;0,700;0,900;1,900&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <canvas id="grain-canvas"></canvas>
+    <div class="bg-layer"></div>
+    <div class="reddot rd1"></div>
+    <div class="reddot rd2"></div>
+    <div class="reddot rd3"></div>
+
+    <!-- ═══════════════════════════
+     PANTALLA 1 — IDENTIFICACIÓN
+════════════════════════════ -->
+    <section class="screen active" id="s1">
+      <div class="stamp">CUMPLEAÑOS<br />FAU</div>
+
+      <div class="section-num">001_IDENTIFICACIÓN</div>
+      <h1 class="big-red">¿QUIÉN<br />SOS?</h1>
+
+      <div class="name-field">
+        <label class="field-label" for="inp-nombre">TU NOMBRE COMPLETO</label>
+        <input
+          type="text"
+          id="inp-nombre"
+          class="line-input"
+          autocomplete="off"
+          autocorrect="off"
+          spellcheck="false"
+        />
+        <p class="field-err" id="err1">ESCRIBÍ TU NOMBRE ANTES</p>
+      </div>
+
+      <button class="btn-ghost" onclick="goS2()">INGRESAR</button>
+    </section>
+
+    <!-- ═══════════════════════════
+     PANTALLA 2 — DETALLES
+════════════════════════════ -->
+    <section class="screen" id="s2">
+      <div class="stamp">CUMPLEAÑOS<br />FAU</div>
+
+      <div class="avatar-wrap">
+        <div class="avatar"></div>
+      </div>
+
+      <div class="section-num" id="s2-label">002_DETALLES</div>
+      <h2 class="big-red big-red--s2">LA CENA<br />MÁS<br />ESPERADA</h2>
+
+      <div class="info-grid">
+        <div class="info-row">
+          <div class="info-left">
+            <span class="info-key">FECHA</span>
+            <span class="info-val">23 JUN</span>
+          </div>
+          <button class="info-action" onclick="addCalendar()">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+              <line x1="16" y1="2" x2="16" y2="6" />
+              <line x1="8" y1="2" x2="8" y2="6" />
+              <line x1="3" y1="10" x2="21" y2="10" />
+            </svg>
+            AGENDALO
+          </button>
+        </div>
+
+        <div class="info-row">
+          <div class="info-left">
+            <span class="info-key">HORA</span>
+            <span class="info-val">19:00</span>
+            <span class="info-sub">HASTA TARDE</span>
+          </div>
+        </div>
+
+        <div class="info-row">
+          <div class="info-left">
+            <span class="info-key">LUGAR</span>
+            <span class="info-val info-val--addr"
+              >ANDRES MARIA AMPERE 7782</span
+            >
+          </div>
+          <a
+            class="info-action"
+            href="https://www.google.com/maps/place/Andr%C3%A9s+Mar%C3%ADa+Ampere+7782,+X5021+C%C3%B3rdoba/@-31.3494167,-64.2691347,18.32z/data=!4m6!3m5!1s0x94329e9f18ec6049:0x950d72930f1f2a1!8m2!3d-31.3491739!4d-64.2686179!16s%2Fg%2F11jyd2wg9m?entry=ttu&g_ep=EgoyMDI2MDYxMC4wIKXMDSoASAFQAw%3D%3D"
+            target="_blank"
+            rel="noopener"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+            LLEGAR
+          </a>
+        </div>
+      </div>
+
+      <!-- Bloque comida -->
+      <div class="food-block">
+        <span class="info-key">EL PLAN</span>
+        <div class="food-main">
+          <span class="food-title food-title--sm"
+            >TAQUITOS DE CARNE DE RES BIEN CABRONA</span
+          >
+        </div>
+      </div>
+
+      <button class="btn-main" onclick="goS3()">DALE</button>
+    </section>
+
+    <!-- ═══════════════════════════
+     PANTALLA 3 — CONFIRMACIÓN
+════════════════════════════ -->
+    <section class="screen" id="s3">
+      <div class="stamp">CUMPLEAÑOS<br />FAU</div>
+
+      <div class="avatar-wrap">
+        <div class="avatar"></div>
+      </div>
+
+      <div class="section-num">003_CONFIRMACIÓN</div>
+      <h2 class="big-red">¿VENÍS?</h2>
+
+      <div class="choice-list">
+        <div class="choice" id="c-si" onclick="pickResp('si')">
+          <span class="choice-arrow">▶</span>SÍ, VOY
+        </div>
+        <div class="choice" id="c-no" onclick="pickResp('no')">NO PUEDO</div>
+      </div>
+
+      <!-- Restricciones: visibles solo cuando eligen SI -->
+      <div id="si-extras" class="si-extras" style="display: none">
+        <div class="restrict-group">
+          <span class="accomp-label">RESTRICCIONES ALIMENTICIAS 🍽️</span>
+          <div class="restrict-chips" id="restrict-chips">
+            <label class="r-chip"
+              ><input type="checkbox" value="vegetariano" />VEGETARIANO</label
+            >
+            <label class="r-chip"
+              ><input type="checkbox" value="vegano" />VEGANO</label
+            >
+            <label class="r-chip"
+              ><input type="checkbox" value="sin lactosa" />SIN LACTOSA</label
+            >
+            <label class="r-chip"
+              ><input type="checkbox" value="sin gluten" />SIN GLUTEN</label
+            >
+            <label class="r-chip" id="chip-otras">
+              <input type="checkbox" value="otras" id="cb-otras" />OTRAS
+            </label>
+          </div>
+          <input
+            type="text"
+            class="line-input otras-input"
+            id="otras-input"
+            placeholder="Especificá..."
+            style="display: none; margin-top: 14px; font-size: 15px"
+          />
+        </div>
+      </div>
+
+      <p class="field-err" id="err3">ELEGÍ SI VENÍS O NO</p>
+
+      <button class="btn-enviar" onclick="enviar()">ENVIAR</button>
+      <button class="btn-volver" onclick="goS2()">VOLVER</button>
+    </section>
+
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,592 @@
+/* ─────────────────────────────
+   RESET
+───────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ─────────────────────────────
+   VARIABLES
+───────────────────────────── */
+:root {
+  --red:   #1a6ecc;
+  --white: #f0f0f0;
+  --muted: #666;
+  --bg:    #0c0c0c;
+  --pad:   clamp(24px, 6vw, 44px);
+}
+
+/* ─────────────────────────────
+   BASE
+───────────────────────────── */
+html, body {
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+body {
+  color: var(--white);
+  font-family: 'Barlow Condensed', 'Impact', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─────────────────────────────
+   GRAIN CANVAS
+───────────────────────────── */
+#grain-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 200;
+  opacity: 0.5;
+  mix-blend-mode: screen;
+}
+
+/* ─────────────────────────────
+   BACKGROUND
+   Poné bg.jpg en esta carpeta para foto de fondo.
+───────────────────────────── */
+.bg-layer {
+  position: fixed;
+  inset: 0;
+  background-image: url('gatito.gif');
+  background-size: cover;
+  background-position: center top;
+  background-color: #111;
+  z-index: 0;
+}
+
+.bg-layer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 90% 90% at 50% 35%,
+    rgba(18,14,10,0.55) 0%,
+    rgba(8,8,8,0.88)   60%,
+    rgba(4,4,4,0.97)   100%
+  );
+}
+
+/* ─────────────────────────────
+   PUNTOS ROJOS decorativos
+───────────────────────────── */
+.reddot {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--red);
+  pointer-events: none;
+  z-index: 5;
+}
+.rd1 { top: 37%; right: 13%; }
+.rd2 { top: 63%; right: 9%;  }
+.rd3 { bottom: 27%; left: 8%; }
+
+/* ─────────────────────────────
+   SCREENS
+───────────────────────────── */
+.screen {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding: var(--pad) var(--pad) 90px;
+  display: flex;
+  flex-direction: column;
+
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.screen.active {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0);
+}
+
+/* ─────────────────────────────
+   STAMP
+───────────────────────────── */
+.stamp {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: clamp(11px, 3vw, 14px);
+  color: var(--red);
+  text-transform: uppercase;
+  line-height: 1;
+  letter-spacing: 0.03em;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+/* ─────────────────────────────
+   AVATAR circular
+   Poné foto.jpg en la misma carpeta.
+───────────────────────────── */
+.avatar-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 18px 0 4px;
+  flex-shrink: 0;
+}
+
+.avatar {
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.22);
+  background: #1c1c1c url('foto.jpg') center/cover no-repeat;
+}
+
+/* ─────────────────────────────
+   SECTION LABEL
+───────────────────────────── */
+.section-num {
+  font-family: 'Space Mono', monospace;
+  font-size: clamp(9px, 2.2vw, 11px);
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+  flex-shrink: 0;
+}
+
+#s1 .section-num { margin-top: auto; }
+
+/* ─────────────────────────────
+   HEADING ROJO GIGANTE
+───────────────────────────── */
+.big-red {
+  font-family: 'Anton', 'Impact', sans-serif;
+  font-size: clamp(70px, 22vw, 130px);
+  line-height: 0.88;
+  color: var(--red);
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  margin-bottom: 36px;
+  flex-shrink: 0;
+}
+
+/* ─────────────────────────────
+   SCREEN 1 — CAMPO NOMBRE
+───────────────────────────── */
+.name-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 40px;
+}
+
+.field-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.line-input {
+  background: transparent;
+  border: none;
+  border-bottom: 1.5px solid rgba(255,255,255,0.45);
+  color: var(--white);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: clamp(20px, 6vw, 28px);
+  padding: 10px 0;
+  outline: none;
+  width: 100%;
+  caret-color: var(--red);
+  border-radius: 0;
+  -webkit-appearance: none;
+}
+
+.line-input:focus { border-bottom-color: var(--white); }
+
+.field-err {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--red);
+  display: none;
+  margin-top: 6px;
+  letter-spacing: 0.06em;
+}
+
+/* ─────────────────────────────
+   BOTÓN INGRESAR
+───────────────────────────── */
+.btn-ghost {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--white);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  padding: 0;
+  width: fit-content;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+  text-decoration-color: rgba(255,255,255,0.28);
+  transition: color 0.2s, text-decoration-color 0.2s;
+}
+
+.btn-ghost:hover {
+  color: var(--red);
+  text-decoration-color: var(--red);
+}
+
+/* ─────────────────────────────
+   SCREEN 2 — INFO GRID
+───────────────────────────── */
+.info-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.info-left {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  flex: 1;
+}
+
+.info-key {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  min-width: 40px;
+  flex-shrink: 0;
+}
+
+.info-val {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(28px, 10vw, 52px);
+  line-height: 1;
+  color: var(--white);
+}
+
+.info-val--addr {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: clamp(16px, 5vw, 24px);
+  line-height: 1.2;
+}
+
+.info-sub {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.07em;
+}
+
+.info-action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  color: var(--muted);
+  text-decoration: none;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  transition: color 0.2s;
+  flex-shrink: 0;
+}
+
+.info-action svg { width: 24px; height: 24px; }
+.info-action:hover { color: var(--white); }
+
+.address-row { align-items: stretch; }
+
+.address-box {
+  flex: 1;
+  background: rgba(255,255,255,0.92);
+  color: #111;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  padding: 12px 14px;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+}
+
+/* ─────────────────────────────
+   BLOQUE COMIDA
+───────────────────────────── */
+.food-block {
+  border-top: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding: 16px 0;
+  margin-bottom: 20px;
+}
+
+.food-main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 6px 0 4px;
+}
+
+.food-icons {
+  font-size: clamp(20px, 6vw, 28px);
+  letter-spacing: 2px;
+  line-height: 1;
+}
+
+.food-title {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(22px, 7vw, 36px);
+  color: var(--white);
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+
+.food-title--sm {
+  font-size: clamp(16px, 5vw, 26px);
+  line-height: 1.1;
+}
+
+.big-red--s2 {
+  font-size: clamp(48px, 15vw, 96px);
+}
+
+.food-sub {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-style: italic;
+  font-size: clamp(13px, 3.5vw, 15px);
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+
+/* ─────────────────────────────
+   NOTE TEXT
+───────────────────────────── */
+.note-text {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-style: italic;
+  font-size: clamp(14px, 4vw, 17px);
+  color: var(--muted);
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+  margin-bottom: 28px;
+}
+
+/* ─────────────────────────────
+   BOTÓN PRINCIPAL (rojo lleno)
+───────────────────────────── */
+.btn-main {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: clamp(13px, 4vw, 16px);
+  letter-spacing: 0.2em;
+  color: var(--white);
+  background: var(--red);
+  border: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  padding: 16px 24px;
+  width: 100%;
+  max-width: 340px;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+
+.btn-main:hover { background: #0f52a8; }
+
+/* ─────────────────────────────
+   SCREEN 3 — CHOICES
+───────────────────────────── */
+.choice-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 28px;
+}
+
+.choice {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(30px, 10vw, 48px);
+  color: rgba(255,255,255,0.38);
+  cursor: pointer;
+  transition: color 0.2s, opacity 0.2s;
+  text-transform: uppercase;
+  user-select: none;
+  line-height: 1.15;
+}
+
+.choice .choice-arrow {
+  color: var(--red);
+  margin-right: 8px;
+  display: none;
+}
+
+.choice.selected { color: var(--white); }
+.choice.selected .choice-arrow { display: inline; }
+.choice.dimmed {
+  opacity: 0.18;
+  text-decoration: line-through;
+  text-decoration-color: rgba(255,255,255,0.18);
+}
+
+/* ─────────────────────────────
+   EXTRAS DEL SI (acompañante + restricciones)
+───────────────────────────── */
+.si-extras { animation: fadeIn 0.3s ease; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─────────────────────────────
+   ACOMPAÑANTE
+───────────────────────────── */
+.accomp-group { margin-bottom: 24px; }
+
+.accomp-label {
+  display: block;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.accomp-btns { display: flex; gap: 12px; }
+
+.btn-accomp {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.38);
+  background: transparent;
+  border: 1.5px solid rgba(255,255,255,0.18);
+  cursor: pointer;
+  padding: 10px 22px;
+  text-transform: uppercase;
+  transition: all 0.2s;
+}
+
+.btn-accomp.active,
+.btn-accomp:hover {
+  border-color: var(--white);
+  color: var(--white);
+  background: rgba(255,255,255,0.06);
+}
+
+/* ─────────────────────────────
+   RESTRICCIONES ALIMENTICIAS
+───────────────────────────── */
+.restrict-group { margin-bottom: 28px; }
+
+.restrict-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.r-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.4);
+  border: 1px solid rgba(255,255,255,0.18);
+  padding: 7px 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  user-select: none;
+  text-transform: uppercase;
+}
+
+.r-chip:hover {
+  border-color: rgba(255,255,255,0.5);
+  color: rgba(255,255,255,0.7);
+}
+
+.r-chip.checked {
+  color: var(--white);
+  border-color: var(--white);
+  background: rgba(255,255,255,0.07);
+}
+
+.r-chip input { display: none; }
+
+.otras-input {
+  font-size: 14px !important;
+  padding: 8px 0 !important;
+}
+
+/* ─────────────────────────────
+   BOTÓN ENVIAR (contorno)
+───────────────────────────── */
+.btn-enviar {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: clamp(13px, 4vw, 16px);
+  letter-spacing: 0.2em;
+  color: var(--white);
+  background: transparent;
+  border: 2px solid var(--white);
+  cursor: pointer;
+  text-transform: uppercase;
+  padding: 14px 24px;
+  width: 100%;
+  max-width: 340px;
+  transition: background 0.2s, color 0.2s;
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+
+.btn-enviar:hover {
+  background: var(--white);
+  color: #111;
+}
+
+/* ─────────────────────────────
+   BOTÓN VOLVER
+───────────────────────────── */
+.btn-volver {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  margin-top: 14px;
+  padding: 0;
+  transition: color 0.2s;
+}
+
+.btn-volver:hover { color: var(--white); }
