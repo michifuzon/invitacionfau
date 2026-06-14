@@ -596,3 +596,90 @@ body {
 }
 
 .btn-volver:hover { color: var(--white); }
+
+/* ─────────────────────────────
+   GLITCH TRANSITION OVERLAY
+───────────────────────────── */
+.glitch-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  pointer-events: none;
+  opacity: 0;
+  background: var(--red);
+  mix-blend-mode: screen;
+}
+
+.glitch-overlay.active {
+  animation: glitch-flash 0.3s steps(1) forwards;
+}
+
+@keyframes glitch-flash {
+  0%   { opacity: 0;    transform: translateX(0)   skewX(0deg); }
+  15%  { opacity: 0.5;  transform: translateX(-4px) skewX(-2deg); }
+  30%  { opacity: 0;    transform: translateX(5px)  skewX(1deg); }
+  50%  { opacity: 0.35; transform: translateX(-2px) skewX(0deg); }
+  70%  { opacity: 0;    transform: translateX(3px); }
+  100% { opacity: 0;    transform: translateX(0); }
+}
+
+/* ─────────────────────────────
+   DRAMA — cuando eligen NO
+───────────────────────────── */
+.drama-msg {
+  position: fixed;
+  inset: 0;
+  z-index: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+  opacity: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(2px);
+}
+
+.drama-msg.active {
+  animation: drama-appear 2.2s ease forwards;
+}
+
+.drama-text {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(40px, 14vw, 80px);
+  color: var(--white);
+  text-align: center;
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+
+.drama-sub {
+  font-family: 'Space Mono', monospace;
+  font-size: clamp(10px, 3vw, 13px);
+  color: var(--muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+@keyframes drama-appear {
+  0%   { opacity: 0; transform: scale(0.85); }
+  18%  { opacity: 1; transform: scale(1.04); }
+  30%  { opacity: 1; transform: scale(1); }
+  75%  { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.95); }
+}
+
+/* ─────────────────────────────
+   CURSOR TRAIL (desktop)
+───────────────────────────── */
+.cursor-dot {
+  position: fixed;
+  pointer-events: none;
+  font-size: 16px;
+  z-index: 9999;
+  opacity: 1;
+  user-select: none;
+  transition: opacity 0.4s ease;
+  transform: translate(-50%, -50%);
+}

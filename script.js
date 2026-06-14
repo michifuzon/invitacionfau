@@ -31,10 +31,21 @@ requestAnimationFrame(drawGrain);
 let nombre = "";
 let respuesta = null;
 
+function glitchTransition(callback) {
+  const overlay = document.getElementById("glitch-overlay");
+  overlay.classList.add("active");
+  setTimeout(() => {
+    callback();
+    setTimeout(() => overlay.classList.remove("active"), 300);
+  }, 100);
+}
+
 function showScreen(id) {
-  document.querySelectorAll(".screen").forEach((s) => s.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-  window.scrollTo(0, 0);
+  glitchTransition(() => {
+    document.querySelectorAll(".screen").forEach((s) => s.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+    window.scrollTo(0, 0);
+  });
 }
 
 function goS2() {
@@ -70,6 +81,11 @@ function pickResp(v) {
     no.classList.add("selected");
     si.classList.add("dimmed");
     extras.style.display = "none";
+    const drama = document.getElementById("drama-msg");
+    drama.classList.remove("active");
+    void drama.offsetWidth;
+    drama.classList.add("active");
+    setTimeout(() => drama.classList.remove("active"), 2200);
   }
   document.getElementById("err3").style.display = "none";
 }
@@ -186,4 +202,20 @@ async function enviar() {
 // Enter en el input avanza a s2
 document.getElementById("inp-nombre").addEventListener("keydown", (e) => {
   if (e.key === "Enter") goS2();
+});
+
+// ── CURSOR TRAIL 🧿 (solo desktop) ───────────────────
+let lastTrail = 0;
+document.addEventListener("mousemove", (e) => {
+  const now = Date.now();
+  if (now - lastTrail < 60) return;
+  lastTrail = now;
+  const dot = document.createElement("div");
+  dot.className = "cursor-dot";
+  dot.textContent = "🧿";
+  dot.style.left = e.clientX + "px";
+  dot.style.top  = e.clientY + "px";
+  document.body.appendChild(dot);
+  requestAnimationFrame(() => { dot.style.opacity = "0"; });
+  setTimeout(() => dot.remove(), 450);
 });
