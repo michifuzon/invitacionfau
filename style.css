@@ -57,6 +57,12 @@ body {
   z-index: 0;
 }
 
+@media (min-width: 768px) {
+  .bg-layer {
+    background-position: center 20%;
+  }
+}
+
 .bg-layer::after {
   content: '';
   position: absolute;
