@@ -135,16 +135,41 @@ function addCalendar() {
   }
 }
 
+// ── GUARDAR EN SUPABASE ───────────────────────────────
+async function guardarRSVP(nombre, asistencia, restricciones) {
+  if (!CONFIG.SUPABASE_URL || CONFIG.SUPABASE_URL.includes('PONE')) return;
+  try {
+    await fetch(`${CONFIG.SUPABASE_URL}/rest/v1/rsvps`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "apikey": CONFIG.SUPABASE_KEY,
+        "Authorization": `Bearer ${CONFIG.SUPABASE_KEY}`,
+        "Prefer": "return=minimal",
+      },
+      body: JSON.stringify({
+        nombre,
+        asistencia,
+        restricciones: restricciones.join(", "),
+      }),
+    });
+  } catch (e) {
+    // falla silencioso — WhatsApp igual se abre
+  }
+}
+
 // ── ENVIAR POR WHATSAPP ───────────────────────────────
-function enviar() {
+async function enviar() {
   if (!respuesta) {
     document.getElementById("err3").style.display = "block";
     return;
   }
+  const restr = respuesta === "si" ? getRestricciones() : [];
+  await guardarRSVP(nombre, respuesta, restr);
+
   const numero = "5493512382733";
   let msg;
   if (respuesta === "si") {
-    const restr = getRestricciones();
     msg = `Hola Fau! Soy *${nombre}* y confirmo que *SI voy* a tu cumple el 23 de Junio.`;
     if (restr.length > 0) {
       msg += `\n\nRestricciones alimenticias: *${restr.join(", ")}*`;

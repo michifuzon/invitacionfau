@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Organización — Cumpleaños Fau</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:ital,wght@0,400;0,700;0,900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── Overrides para que la page sea scrollable ── */
+    html, body { overflow: auto; height: auto; }
+
+    .org-wrap {
+      min-height: 100vh;
+      padding: clamp(24px, 6vw, 44px);
+      padding-bottom: 80px;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* ── GATE (contraseña) ── */
+    .gate {
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: clamp(24px, 6vw, 44px);
+      padding-bottom: 60px;
+    }
+
+    /* ── HEADER ── */
+    .org-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+
+    .org-refresh {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 8px 14px;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.2s;
+    }
+    .org-refresh:hover { border-color: var(--white); color: var(--white); }
+
+    /* ── MEGA STATS ── */
+    .mega-row {
+      display: flex;
+      gap: 0;
+      margin-bottom: 8px;
+    }
+
+    .mega-block {
+      flex: 1;
+      padding: 20px 0 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .mega-block + .mega-block {
+      border-left: 1px solid rgba(255,255,255,0.1);
+      padding-left: 24px;
+    }
+
+    .mega-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .mega-num {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(52px, 16vw, 96px);
+      line-height: 0.9;
+      color: var(--red);
+      display: block;
+    }
+
+    .mega-num.muted { color: rgba(255,255,255,0.2); }
+
+    /* ── COMPRAS ── */
+    .compras-title {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin: 36px 0 16px;
+      display: block;
+    }
+
+    .compras-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 32px;
+    }
+
+    .compra-item {
+      background: var(--bg);
+      padding: 20px 16px;
+    }
+
+    .compra-val {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(24px, 8vw, 44px);
+      color: var(--white);
+      line-height: 1;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .compra-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .compra-sub {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: 0.04em;
+      display: block;
+    }
+
+    /* ── RESTRICCIONES ── */
+    .restr-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 32px;
+    }
+
+    .restr-chip {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      color: var(--white);
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 8px 14px;
+    }
+
+    .restr-chip-num {
+      font-family: 'Anton', sans-serif;
+      font-size: 22px;
+      color: var(--red);
+      line-height: 1;
+    }
+
+    /* ── LISTA INVITADOS ── */
+    .inv-section-title {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    .inv-list {
+      list-style: none;
+      margin-bottom: 32px;
+    }
+
+    .inv-item {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .inv-tick {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--red);
+      flex-shrink: 0;
+    }
+
+    .inv-tick.no { color: var(--muted); }
+
+    .inv-nombre {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: clamp(16px, 5vw, 20px);
+      color: var(--white);
+      letter-spacing: 0.03em;
+      flex: 1;
+    }
+
+    .inv-restr {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-align: right;
+    }
+
+    .inv-nombre.muted-name { color: rgba(255,255,255,0.3); }
+
+    /* ── TIMESTAMP ── */
+    .org-ts {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      color: rgba(255,255,255,0.18);
+      letter-spacing: 0.06em;
+      margin-top: 40px;
+      display: block;
+    }
+
+    /* ── LOADING ── */
+    .loading-txt {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      animation: pulse 1.4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.3; }
+      50%       { opacity: 1; }
+    }
+
+    @media (max-width: 480px) {
+      .compras-grid { grid-template-columns: 1fr 1fr; }
+      .mega-num { font-size: clamp(44px, 18vw, 72px); }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="grain-canvas"></canvas>
+<div class="bg-layer"></div>
+<div class="reddot rd1"></div>
+<div class="reddot rd2"></div>
+<div class="reddot rd3"></div>
+
+<!-- ══ GATE: contraseña ══ -->
+<div class="gate" id="gate">
+  <div class="stamp">CUMPLEAÑOS<br>FAU</div>
+  <div class="section-num" style="margin-top:auto">ZONA RESTRINGIDA</div>
+  <h1 class="big-red">ZONA<br>ORG.</h1>
+  <div class="name-field">
+    <label class="field-label" for="inp-pass">CONTRASEÑA</label>
+    <input type="password" id="inp-pass" class="line-input" autocomplete="off">
+    <p class="field-err" id="err-pass">CLAVE INCORRECTA</p>
+  </div>
+  <button class="btn-ghost" onclick="checkPass()">ENTRAR</button>
+</div>
+
+<!-- ══ DASHBOARD ══ -->
+<div class="org-wrap" id="dashboard" style="display:none">
+
+  <div class="org-header">
+    <div class="stamp">CUMPLEAÑOS<br>FAU</div>
+    <button class="org-refresh" onclick="cargarDatos()">↻ ACTUALIZAR</button>
+  </div>
+
+  <div class="section-num">ORGANIZACIÓN // ESTADO EN TIEMPO REAL</div>
+  <h2 class="big-red big-red--s2" style="margin-bottom:24px">EL<br>RECUENTO</h2>
+
+  <!-- Mega stats: van / no van -->
+  <div class="mega-row">
+    <div class="mega-block">
+      <span class="mega-label">CONFIRMARON</span>
+      <span class="mega-num" id="num-si"><span class="loading-txt">...</span></span>
+    </div>
+    <div class="mega-block">
+      <span class="mega-label">NO VAN</span>
+      <span class="mega-num muted" id="num-no"><span class="loading-txt">...</span></span>
+    </div>
+  </div>
+
+  <!-- Lo que hay que comprar -->
+  <span class="compras-title">LO QUE HAY QUE COMPRAR</span>
+
+  <div class="compras-grid">
+    <div class="compra-item">
+      <span class="compra-label">CARNE</span>
+      <span class="compra-val" id="comp-carne">—</span>
+      <span class="compra-sub" id="comp-carne-sub">150g × persona</span>
+    </div>
+    <div class="compra-item">
+      <span class="compra-label">TORTILLAS</span>
+      <span class="compra-val" id="comp-tort">—</span>
+      <span class="compra-sub" id="comp-tort-sub">3 × persona</span>
+    </div>
+    <div class="compra-item">
+      <span class="compra-label">VINO</span>
+      <span class="compra-val" id="comp-vino">—</span>
+      <span class="compra-sub" id="comp-vino-sub">1 botella c/3 pers.</span>
+    </div>
+  </div>
+
+  <!-- Restricciones alimenticias -->
+  <span class="compras-title">RESTRICCIONES ALIMENTICIAS</span>
+  <div class="restr-row" id="restr-row">
+    <span class="loading-txt">...</span>
+  </div>
+
+  <!-- Lista: van -->
+  <span class="inv-section-title" style="margin-top:8px">VAN ✓</span>
+  <ul class="inv-list" id="lista-si"></ul>
+
+  <!-- Lista: no van -->
+  <span class="inv-section-title">NO VAN ✗</span>
+  <ul class="inv-list" id="lista-no"></ul>
+
+  <span class="org-ts" id="org-ts"></span>
+
+</div>
+
+<script src="config.js"></script>
+<script>
+// ── GRAIN ─────────────────────────────────────────────
+const gc = document.getElementById("grain-canvas");
+const gx = gc.getContext("2d");
+function resizeGrain() { gc.width = innerWidth; gc.height = innerHeight; }
+resizeGrain();
+window.addEventListener("resize", resizeGrain);
+let lastTs = 0;
+function drawGrain(ts) {
+  if (ts - lastTs > 80) {
+    lastTs = ts;
+    const img = gx.createImageData(gc.width, gc.height);
+    const d = img.data;
+    for (let i = 0; i < d.length; i += 4) {
+      const v = (Math.random() * 255) | 0;
+      d[i] = d[i+1] = d[i+2] = v;
+      d[i+3] = 20;
+    }
+    gx.putImageData(img, 0, 0);
+  }
+  requestAnimationFrame(drawGrain);
+}
+requestAnimationFrame(drawGrain);
+
+// ── GATE ──────────────────────────────────────────────
+function checkPass() {
+  const val = document.getElementById("inp-pass").value;
+  if (val === CONFIG.ADMIN_PASS) {
+    document.getElementById("gate").style.display = "none";
+    document.getElementById("dashboard").style.display = "block";
+    cargarDatos();
+  } else {
+    document.getElementById("err-pass").style.display = "block";
+  }
+}
+
+document.getElementById("inp-pass").addEventListener("keydown", e => {
+  if (e.key === "Enter") checkPass();
+});
+
+// ── SUPABASE FETCH ────────────────────────────────────
+async function fetchRSVPs() {
+  const res = await fetch(
+    `${CONFIG.SUPABASE_URL}/rest/v1/rsvps?select=*&order=created_at.asc`,
+    {
+      headers: {
+        "apikey": CONFIG.SUPABASE_KEY,
+        "Authorization": `Bearer ${CONFIG.SUPABASE_KEY}`,
+      },
+    }
+  );
+  if (!res.ok) throw new Error("Error al cargar datos");
+  return res.json();
+}
+
+// ── CALCULAR Y RENDERIZAR ─────────────────────────────
+async function cargarDatos() {
+  try {
+    const datos = await fetchRSVPs();
+
+    const van    = datos.filter(d => d.asistencia === "si");
+    const noVan  = datos.filter(d => d.asistencia === "no");
+    const nSi    = van.length;
+    const nNo    = noVan.length;
+
+    // Mega stats
+    document.getElementById("num-si").textContent = nSi;
+    document.getElementById("num-no").textContent = nNo;
+
+    // Compras
+    const gramos = nSi * CONFIG.GRAMOS_CARNE;
+    document.getElementById("comp-carne").textContent =
+      gramos >= 1000 ? (gramos / 1000).toFixed(1) + " KG" : gramos + " G";
+    document.getElementById("comp-carne-sub").textContent =
+      `${CONFIG.GRAMOS_CARNE}g × ${nSi} pers.`;
+
+    const tort = nSi * CONFIG.TORTILLAS;
+    document.getElementById("comp-tort").textContent = tort;
+    document.getElementById("comp-tort-sub").textContent =
+      `${CONFIG.TORTILLAS} × ${nSi} pers.`;
+
+    const botellas = Math.ceil(nSi / CONFIG.PERSONAS_X_BOTELLA);
+    document.getElementById("comp-vino").textContent = botellas;
+    document.getElementById("comp-vino-sub").textContent =
+      `1 botella c/${CONFIG.PERSONAS_X_BOTELLA} pers.`;
+
+    // Restricciones
+    const restrCount = {};
+    van.forEach(d => {
+      if (!d.restricciones) return;
+      d.restricciones.split(",").forEach(r => {
+        const key = r.trim().toLowerCase();
+        if (key && key !== "otras") restrCount[key] = (restrCount[key] || 0) + 1;
+      });
+    });
+
+    const restrRow = document.getElementById("restr-row");
+    if (Object.keys(restrCount).length === 0) {
+      restrRow.innerHTML = `<span class="compra-sub" style="font-size:12px">Ninguna reportada todavía</span>`;
+    } else {
+      restrRow.innerHTML = Object.entries(restrCount)
+        .sort((a, b) => b[1] - a[1])
+        .map(([k, v]) => `
+          <div class="restr-chip">
+            <span class="restr-chip-num">${v}</span>
+            ${k.toUpperCase()}
+          </div>`)
+        .join("");
+    }
+
+    // Lista van
+    const listaSi = document.getElementById("lista-si");
+    listaSi.innerHTML = van.length
+      ? van.map(d => `
+          <li class="inv-item">
+            <span class="inv-tick">✓</span>
+            <span class="inv-nombre">${d.nombre}</span>
+            <span class="inv-restr">${d.restricciones || "sin restricciones"}</span>
+          </li>`).join("")
+      : `<li class="inv-item"><span class="inv-restr">Nadie confirmó todavía</span></li>`;
+
+    // Lista no van
+    const listaNo = document.getElementById("lista-no");
+    listaNo.innerHTML = noVan.length
+      ? noVan.map(d => `
+          <li class="inv-item">
+            <span class="inv-tick no">✗</span>
+            <span class="inv-nombre muted-name">${d.nombre}</span>
+          </li>`).join("")
+      : `<li class="inv-item"><span class="inv-restr">Nadie declinó todavía</span></li>`;
+
+    // Timestamp
+    document.getElementById("org-ts").textContent =
+      "ÚLTIMA ACTUALIZACIÓN: " + new Date().toLocaleTimeString("es-AR");
+
+  } catch (err) {
+    document.getElementById("num-si").textContent = "!";
+    document.getElementById("num-no").textContent = "!";
+    console.error(err);
+  }
+}
+
+// Auto-refresh cada 60 segundos
+setInterval(() => {
+  if (document.getElementById("dashboard").style.display !== "none") {
+    cargarDatos();
+  }
+}, 60000);
+</script>
+
+</body>
+</html>
