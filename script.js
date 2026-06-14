@@ -204,40 +204,6 @@ document.getElementById("inp-nombre").addEventListener("keydown", (e) => {
   if (e.key === "Enter") goS2();
 });
 
-// ── PUNTITOS QUE SE ESCAPAN ───────────────────────────
-document.querySelectorAll(".reddot").forEach((dot) => {
-  dot.addEventListener("click", () => {
-    dot.style.top    = Math.random() * 78 + 5 + "%";
-    dot.style.left   = Math.random() * 78 + 5 + "%";
-    dot.style.right  = "auto";
-    dot.style.bottom = "auto";
-  });
-});
-
-// ── EASTER EGG: 5 clicks en el stamp ─────────────────
-let stampClicks = 0;
-document.querySelectorAll(".stamp").forEach((stamp) => {
-  stamp.addEventListener("click", () => {
-    stampClicks++;
-    if (stampClicks >= 5) {
-      stampClicks = 0;
-      const msg = document.getElementById("surprise-msg");
-      msg.classList.remove("active");
-      void msg.offsetWidth;
-      msg.classList.add("active");
-      setTimeout(() => msg.classList.remove("active"), 2600);
-      document.querySelectorAll(".reddot").forEach((dot, i) => {
-        setTimeout(() => {
-          dot.style.top    = Math.random() * 78 + 5 + "%";
-          dot.style.left   = Math.random() * 78 + 5 + "%";
-          dot.style.right  = "auto";
-          dot.style.bottom = "auto";
-        }, i * 120);
-      });
-    }
-  });
-});
-
 // ── CURSOR TRAIL 🧿 (solo desktop) ───────────────────
 let lastTrail = 0;
 document.addEventListener("mousemove", (e) => {
