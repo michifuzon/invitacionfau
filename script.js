@@ -408,13 +408,10 @@ function goS4() {
   const titleEl = document.getElementById("s4-title");
   const msgEl   = document.getElementById("s4-msg");
   const subEl   = document.getElementById("s4-sub");
-  const emojiEl = document.getElementById("s4-emoji");
-
   if (respuesta === "si") {
     if (titleEl)  titleEl.textContent  = "¡LISTO!";
     if (msgEl)    msgEl.innerHTML      = "FAU YA SABE QUE VAS.<br>NOS VEMOS EL 27 JUN.";
     if (subEl)    subEl.textContent    = nombre.toUpperCase() + ", QUE GANAS DE VERTE.";
-    if (emojiEl)  emojiEl.textContent  = "🎉";
     showScreen("s4");
     setTimeout(() => { playSuccess(); launchConfetti(null, null, 130); }, 350);
     setTimeout(showPaw, 2000);
@@ -422,7 +419,6 @@ function goS4() {
     if (titleEl)  titleEl.textContent  = "OK.";
     if (msgEl)    msgEl.innerHTML      = "FAU LO ENTIENDE.<br>O NO. PERO BUENO.";
     if (subEl)    subEl.textContent    = nombre.toUpperCase() + ", IGUAL TE QUEREMOS.";
-    if (emojiEl)  emojiEl.textContent  = "💔";
     playSad();
     showScreen("s4");
     // para el NO no hay patita, mandamos el WA directo
@@ -447,7 +443,7 @@ function showPaw() {
   paw.classList.remove("paw-bob", "paw-hit", "paw-bye");
   const label = document.getElementById("paw-label");
   const hint  = document.getElementById("paw-hint");
-  if (label) label.textContent = "DALE, CHOQUE LOS 5";
+  if (label) label.textContent = "CHOQUE LOS 5";
   if (hint)  hint.textContent  = "↑ TOCÁ LA PATITA ↑";
   paw.style.display   = "flex";
   paw.style.transform = "translateX(-50%) translateY(115%)";
