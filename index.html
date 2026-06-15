@@ -18,11 +18,17 @@
   </head>
   <body>
     <canvas id="grain-canvas"></canvas>
+    <canvas id="confetti-canvas"></canvas>
     <div class="bg-layer"></div>
     <div class="glitch-overlay" id="glitch-overlay"></div>
     <div class="drama-msg" id="drama-msg">
-      <span class="drama-text">FAU VA<br>A LLORAR</span>
-      <span class="drama-sub">esto queda en el registro</span>
+      <span class="drama-text" id="drama-text">FAU VA<br>A LLORAR</span>
+      <span class="drama-sub" id="drama-sub">esto queda en el registro</span>
+    </div>
+    <div class="easter-egg" id="easter-egg">
+      <span class="ee-emoji" id="ee-emoji">🎂</span>
+      <p class="ee-text" id="ee-text">FAU ES<br>LA PERSONA<br>MÁS GROSA</p>
+      <span class="ee-sub" id="ee-sub">secreto desbloqueado</span>
     </div>
     <div class="reddot rd1"></div>
     <div class="reddot rd2"></div>
@@ -63,14 +69,40 @@
         <div class="avatar"></div>
       </div>
 
+      <div class="s2-greeting" id="s2-greeting"></div>
       <div class="section-num" id="s2-label">002_DETALLES</div>
       <h2 class="big-red big-red--s2">LA CENA<br />MÁS<br />ESPERADA</h2>
+
+      <div class="countdown-block">
+        <span class="cd-label-top">FALTAN</span>
+        <div class="countdown-row">
+          <div class="cd-unit">
+            <span class="cd-num" id="cd-days">--</span>
+            <span class="cd-unit-label">DÍAS</span>
+          </div>
+          <span class="cd-sep">:</span>
+          <div class="cd-unit">
+            <span class="cd-num" id="cd-hours">--</span>
+            <span class="cd-unit-label">HS</span>
+          </div>
+          <span class="cd-sep">:</span>
+          <div class="cd-unit">
+            <span class="cd-num" id="cd-mins">--</span>
+            <span class="cd-unit-label">MIN</span>
+          </div>
+          <span class="cd-sep">:</span>
+          <div class="cd-unit">
+            <span class="cd-num" id="cd-secs">--</span>
+            <span class="cd-unit-label">SEG</span>
+          </div>
+        </div>
+      </div>
 
       <div class="info-grid">
         <div class="info-row">
           <div class="info-left">
             <span class="info-key">FECHA</span>
-            <span class="info-val">23 JUN</span>
+            <span class="info-val">27 JUN</span>
           </div>
           <button class="info-action" onclick="addCalendar()">
             <svg
@@ -128,13 +160,14 @@
       </div>
 
       <!-- Bloque comida -->
-      <div class="food-block">
+      <div class="food-block" id="food-block" onclick="reactFood(this)">
         <span class="info-key">EL PLAN</span>
         <div class="food-main">
           <span class="food-title food-title--sm"
             >TAQUITOS DE CARNE DE RES BIEN CABRONA</span
           >
         </div>
+        <span class="food-hint">TAP PARA REACCIONAR</span>
       </div>
 
       <button class="btn-main" onclick="goS3()">CONFIRMAR ASISTENCIA</button>
@@ -194,7 +227,22 @@
       <p class="field-err" id="err3">ELEGÍ SI VENÍS O NO</p>
 
       <button class="btn-enviar" onclick="enviar()">ENVIAR</button>
-      <button class="btn-volver" onclick="goS2()">VOLVER</button>
+      <button class="btn-volver" onclick="goS2FromS3()">VOLVER</button>
+    </section>
+
+    <!-- ═══════════════════════════
+     PANTALLA 4 — FINALE
+════════════════════════════ -->
+    <section class="screen" id="s4">
+      <div class="stamp">CUMPLEAÑOS<br />FAU</div>
+      <div class="s4-content">
+        <div class="s4-emoji-big" id="s4-emoji">🎉</div>
+        <h2 class="big-red s4-title" id="s4-title">¡LISTO!</h2>
+        <p class="s4-msg" id="s4-msg">FAU YA SABE QUE VAS.<br>NOS VEMOS EL 27 JUN.</p>
+        <p class="s4-sub" id="s4-sub"></p>
+        <div class="s4-detail">19:00HS · AMPERE 7782</div>
+        <button class="btn-volver s4-volver" onclick="goS3()">← VOLVER</button>
+      </div>
     </section>
 
     <script src="config.js"></script>
