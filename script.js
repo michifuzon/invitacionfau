@@ -464,6 +464,14 @@ function highFive() {
   if (!pawReady || pawUsed) return;
   pawUsed  = true;
   pawReady = false;
+
+  // window.open DEBE ir acá, sincrónico dentro del handler del tap.
+  // En mobile (iOS/Android) cualquier setTimeout lo bloquea como popup.
+  if (window._waMsgPendiente) {
+    window.open(window._waMsgPendiente, "_blank");
+    window._waMsgPendiente = null;
+  }
+
   const paw   = document.getElementById("paw-container");
   const label = document.getElementById("paw-label");
   const hint  = document.getElementById("paw-hint");
@@ -473,11 +481,9 @@ function highFive() {
   paw.classList.remove("paw-bob");
   paw.classList.add("paw-hit");
 
-  // sonido: golpe sordo + arpegio de éxito
   playTone(250, 0.07, 0.18, "square");
   setTimeout(() => playSuccess(), 170);
 
-  // confetti desde la patita
   const rect = paw.getBoundingClientRect();
   setTimeout(() => launchConfetti(
     rect.left + rect.width / 2,
@@ -491,11 +497,6 @@ function highFive() {
   setTimeout(() => {
     paw.classList.remove("paw-hit");
     paw.classList.add("paw-bye");
-    // abrir WhatsApp justo cuando la patita se retira
-    if (window._waMsgPendiente) {
-      window.open(window._waMsgPendiente, "_blank");
-      window._waMsgPendiente = null;
-    }
   }, 560);
 
   setTimeout(() => { paw.style.display = "none"; }, 1450);
