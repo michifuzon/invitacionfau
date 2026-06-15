@@ -398,8 +398,9 @@ async function enviar() {
   } else {
     msg = `Hola Fau! Soy *${nombre}* y lamentablemente *no voy a poder ir* a tu cumple el 27 de Junio. Que la pases increible!`;
   }
-  window.open(`https://wa.me/${numero}?text=${encodeURIComponent(msg)}`, "_blank");
-  setTimeout(goS4, 400);
+  // Guardamos el mensaje para enviarlo después del choque los 5
+  window._waMsgPendiente = `https://wa.me/${numero}?text=${encodeURIComponent(msg)}`;
+  goS4();
 }
 
 // ── PANTALLA 4 — FINALE ───────────────────────────────
@@ -424,6 +425,13 @@ function goS4() {
     if (emojiEl)  emojiEl.textContent  = "💔";
     playSad();
     showScreen("s4");
+    // para el NO no hay patita, mandamos el WA directo
+    if (window._waMsgPendiente) {
+      setTimeout(() => {
+        window.open(window._waMsgPendiente, "_blank");
+        window._waMsgPendiente = null;
+      }, 600);
+    }
   }
 }
 
@@ -487,6 +495,11 @@ function highFive() {
   setTimeout(() => {
     paw.classList.remove("paw-hit");
     paw.classList.add("paw-bye");
+    // abrir WhatsApp justo cuando la patita se retira
+    if (window._waMsgPendiente) {
+      window.open(window._waMsgPendiente, "_blank");
+      window._waMsgPendiente = null;
+    }
   }, 560);
 
   setTimeout(() => { paw.style.display = "none"; }, 1450);
