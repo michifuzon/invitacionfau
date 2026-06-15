@@ -676,7 +676,10 @@ body {
 .cursor-dot {
   position: fixed;
   pointer-events: none;
-  font-size: 16px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--red);
   z-index: 9999;
   opacity: 1;
   user-select: none;

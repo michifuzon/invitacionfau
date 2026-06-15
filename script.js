@@ -442,7 +442,6 @@ document.addEventListener("mousemove", e => {
   lastTrail = now;
   const dot = document.createElement("div");
   dot.className = "cursor-dot";
-  dot.textContent = "🧿";
   dot.style.left = e.clientX + "px";
   dot.style.top  = e.clientY + "px";
   document.body.appendChild(dot);
