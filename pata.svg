@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 250">
+  <defs>
+    <filter id="sh" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="-6" stdDeviation="14" flood-color="rgba(0,0,0,0.5)"/>
+    </filter>
+  </defs>
+  <g filter="url(#sh)">
+    <!-- Brazo / muñeca -->
+    <rect x="58" y="192" width="84" height="80" rx="42" fill="#ffffff"/>
+    <!-- Almohadilla principal -->
+    <ellipse cx="100" cy="176" rx="58" ry="52" fill="#ffffff"/>
+    <!-- Dedos (blanco) -->
+    <ellipse cx="35"  cy="114" rx="21" ry="27" fill="#ffffff"/>
+    <ellipse cx="74"  cy="90"  rx="21" ry="27" fill="#ffffff"/>
+    <ellipse cx="126" cy="90"  rx="21" ry="27" fill="#ffffff"/>
+    <ellipse cx="165" cy="114" rx="21" ry="27" fill="#ffffff"/>
+    <!-- Almohadilla central (rosa) -->
+    <ellipse cx="100" cy="181" rx="37" ry="29" fill="#FFADC8" opacity="0.85"/>
+    <!-- Almohadillas dedos (rosa) -->
+    <ellipse cx="35"  cy="119" rx="12" ry="15" fill="#FFADC8" opacity="0.85"/>
+    <ellipse cx="74"  cy="95"  rx="12" ry="15" fill="#FFADC8" opacity="0.85"/>
+    <ellipse cx="126" cy="95"  rx="12" ry="15" fill="#FFADC8" opacity="0.85"/>
+    <ellipse cx="165" cy="119" rx="12" ry="15" fill="#FFADC8" opacity="0.85"/>
+  </g>
+</svg>

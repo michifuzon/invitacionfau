@@ -19,6 +19,7 @@
   <body>
     <canvas id="grain-canvas"></canvas>
     <canvas id="confetti-canvas"></canvas>
+    <button class="sound-btn" id="sound-btn" onclick="toggleSound()" aria-label="Activar sonido">🔇</button>
     <div class="bg-layer"></div>
     <div class="glitch-overlay" id="glitch-overlay"></div>
     <div class="drama-msg" id="drama-msg">
@@ -244,6 +245,15 @@
         <button class="btn-volver s4-volver" onclick="goS3()">← VOLVER</button>
       </div>
     </section>
+
+    <!-- Patita — choque los 5 (se muestra sólo en pantalla 4 con sí) -->
+    <div class="paw-container" id="paw-container" onclick="highFive()">
+      <div class="paw-label-wrap">
+        <span class="paw-label" id="paw-label">DALE, CHOQUE LOS 5</span>
+        <span class="paw-hint" id="paw-hint">↑ TOCÁ LA PATITA ↑</span>
+      </div>
+      <img class="paw-img" src="pata.svg" alt="patita de gato" draggable="false"/>
+    </div>
 
     <script src="config.js"></script>
     <script src="script.js"></script>

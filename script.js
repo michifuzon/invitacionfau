@@ -29,11 +29,39 @@ requestAnimationFrame(drawGrain);
 
 // ── AUDIO (Web Audio API, no archivos) ────────────────
 let audioCtx;
+let soundEnabled = false;
+
 function getAudio() {
   if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   return audioCtx;
 }
+
+function toggleSound() {
+  soundEnabled = !soundEnabled;
+  const btn = document.getElementById("sound-btn");
+  if (btn) {
+    btn.textContent = soundEnabled ? "🔊" : "🔇";
+    btn.classList.toggle("on", soundEnabled);
+  }
+  if (soundEnabled) {
+    try {
+      const ctx = getAudio();
+      ctx.resume().then(() => {
+        // beep de confirmación directo (sin pasar por soundEnabled)
+        const osc = ctx.createOscillator();
+        const g   = ctx.createGain();
+        osc.connect(g); g.connect(ctx.destination);
+        osc.frequency.value = 880;
+        g.gain.setValueAtTime(0.05, ctx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.12);
+        osc.start(); osc.stop(ctx.currentTime + 0.12);
+      });
+    } catch(e) { soundEnabled = false; if (btn) btn.textContent = "🔇"; }
+  }
+}
+
 function playTone(freq, dur = 0.08, vol = 0.07, type = "sine") {
+  if (!soundEnabled) return;
   try {
     const ctx = getAudio();
     const osc = ctx.createOscillator();
@@ -388,6 +416,7 @@ function goS4() {
     if (emojiEl)  emojiEl.textContent  = "🎉";
     showScreen("s4");
     setTimeout(() => { playSuccess(); launchConfetti(null, null, 130); }, 350);
+    setTimeout(showPaw, 2000);
   } else {
     if (titleEl)  titleEl.textContent  = "OK.";
     if (msgEl)    msgEl.innerHTML      = "FAU LO ENTIENDE.<br>O NO. PERO BUENO.";
@@ -396,6 +425,71 @@ function goS4() {
     playSad();
     showScreen("s4");
   }
+}
+
+// ── PATITA — choque los 5 ─────────────────────────────
+let pawReady = false;
+let pawUsed  = false;
+
+function showPaw() {
+  const paw = document.getElementById("paw-container");
+  if (!paw) return;
+  pawReady = false;
+  pawUsed  = false;
+  paw.classList.remove("paw-bob", "paw-hit", "paw-bye");
+  const label = document.getElementById("paw-label");
+  const hint  = document.getElementById("paw-hint");
+  if (label) label.textContent = "DALE, CHOQUE LOS 5";
+  if (hint)  hint.textContent  = "↑ TOCÁ LA PATITA ↑";
+  paw.style.display   = "flex";
+  paw.style.transform = "translateX(-50%) translateY(115%)";
+  paw.style.transition = "transform 0.75s cubic-bezier(0.16,1,0.3,1)";
+  void paw.offsetWidth;
+  requestAnimationFrame(() => {
+    paw.style.transform = "translateX(-50%) translateY(28%)";
+    setTimeout(() => {
+      paw.style.transition = "";
+      paw.style.transform  = "";
+      paw.classList.add("paw-bob");
+      pawReady = true;
+    }, 780);
+  });
+}
+
+function highFive() {
+  if (!pawReady || pawUsed) return;
+  pawUsed  = true;
+  pawReady = false;
+  const paw   = document.getElementById("paw-container");
+  const label = document.getElementById("paw-label");
+  const hint  = document.getElementById("paw-hint");
+
+  paw.style.transition = "";
+  paw.style.transform  = "";
+  paw.classList.remove("paw-bob");
+  paw.classList.add("paw-hit");
+
+  // sonido: golpe sordo + arpegio de éxito
+  playTone(250, 0.07, 0.18, "square");
+  setTimeout(() => playSuccess(), 170);
+
+  // confetti desde la patita
+  const rect = paw.getBoundingClientRect();
+  setTimeout(() => launchConfetti(
+    rect.left + rect.width / 2,
+    rect.top  + rect.height / 3,
+    90
+  ), 140);
+
+  if (label) label.textContent = "¡CHOCASTE!";
+  if (hint)  hint.textContent  = (nombre || "").toUpperCase() + " 🎉";
+
+  setTimeout(() => {
+    paw.classList.remove("paw-hit");
+    paw.classList.add("paw-bye");
+  }, 560);
+
+  setTimeout(() => { paw.style.display = "none"; }, 1450);
 }
 
 // ── EASTER EGG — avatar 5 clicks ──────────────────────
