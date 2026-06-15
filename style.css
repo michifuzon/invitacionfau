@@ -704,16 +704,27 @@ body {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-#s1.active .big-red       { animation: slide-up 0.6s cubic-bezier(0.16,1,0.3,1) 0.1s both; }
-#s1.active .name-field    { animation: slide-up 0.6s cubic-bezier(0.16,1,0.3,1) 0.25s both; }
-#s1.active .btn-ghost     { animation: slide-up 0.6s cubic-bezier(0.16,1,0.3,1) 0.4s both; }
-#s2.active .big-red--s2   { animation: slide-up 0.5s cubic-bezier(0.16,1,0.3,1) 0.15s both; }
+#s1.active .big-red         { animation: slide-up 0.6s cubic-bezier(0.16,1,0.3,1) 0.1s both; }
+#s1.active .name-field      { animation: slide-up 0.6s cubic-bezier(0.16,1,0.3,1) 0.25s both; }
+#s1.active .btn-ghost       { animation: slide-up 0.6s cubic-bezier(0.16,1,0.3,1) 0.4s both; }
+#s2.active .big-red--s2     { animation: slide-up 0.5s cubic-bezier(0.16,1,0.3,1) 0.15s both; }
 #s2.active .countdown-block { animation: slide-up 0.5s cubic-bezier(0.16,1,0.3,1) 0.25s both; }
-#s2.active .info-grid     { animation: slide-up 0.5s cubic-bezier(0.16,1,0.3,1) 0.35s both; }
-#s2.active .food-block    { animation: slide-up 0.5s cubic-bezier(0.16,1,0.3,1) 0.45s both; }
-#s3.active .big-red       { animation: slide-up 0.5s cubic-bezier(0.16,1,0.3,1) 0.1s both; }
-#s3.active .choice-list   { animation: slide-up 0.5s cubic-bezier(0.16,1,0.3,1) 0.2s both; }
-#s4.active .s4-content    { animation: slide-up 0.7s cubic-bezier(0.16,1,0.3,1) 0.15s both; }
+#s2.active .info-grid       { animation: slide-up 0.5s cubic-bezier(0.16,1,0.3,1) 0.35s both; }
+#s2.active .food-block      { animation: slide-up 0.5s cubic-bezier(0.16,1,0.3,1) 0.45s both; }
+#s3.active .big-red         { animation: slide-up 0.5s cubic-bezier(0.16,1,0.3,1) 0.1s both; }
+#s3.active .choice-list     { animation: slide-up 0.5s cubic-bezier(0.16,1,0.3,1) 0.2s both; }
+#s4.active .s4-content      { animation: slide-up 0.7s cubic-bezier(0.16,1,0.3,1) 0.15s both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .big-red, .name-field, .btn-ghost, .countdown-block,
+  .info-grid, .food-block, .choice-list, .s4-content,
+  .si-extras, .drama-msg, .easter-egg {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
 
 /* ─────────────────────────────
    SCREEN SHAKE (on NO)
