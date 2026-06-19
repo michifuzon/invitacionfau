@@ -189,7 +189,7 @@ function goS2FromS3() {
 
 // ── COUNTDOWN ─────────────────────────────────────────
 (function startCountdown() {
-  const target = new Date("2026-06-27T19:00:00-03:00");
+  const target = new Date("2026-06-27T21:00:00-03:00");
   const pad = n => String(n).padStart(2, "0");
   let prevS = -1;
 
@@ -327,7 +327,7 @@ function addCalendar() {
     "VERSION:2.0",
     "PRODID:-//Cumple Fau//ES",
     "BEGIN:VEVENT",
-    "DTSTART:20260627T190000",
+    "DTSTART:20260627T210000",
     "DTEND:20260628T020000",
     "SUMMARY:Cumpleanos Fau",
     "LOCATION:Andres Maria Ampere 7782\\, Cordoba",
@@ -354,7 +354,7 @@ function addCalendar() {
     const url =
       "https://calendar.google.com/calendar/r/eventedit" +
       "?text=Cumplea%C3%B1os+Fau" +
-      "&dates=20260627T190000%2F20260628T020000" +
+      "&dates=20260627T210000%2F20260628T040000" +
       "&location=Andres+Maria+Ampere+7782%2C+C%C3%B3rdoba" +
       "&details=La+cena+m%C3%A1s+esperada";
     window.open(url, "_blank");
